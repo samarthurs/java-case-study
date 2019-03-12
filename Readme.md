@@ -5,6 +5,8 @@ This case study puts you in the position of a Java backend developer at trivago.
 level to re-implement the backend from scratch and see whether the new solution can replace the legacy system which has grown
 over the past several years.
 
+We suggest to spend anywhere between 2 hours to max a day on the case study.
+
 ## Your task
 First take a look at the interface `HotelSearchEngine`. Your task will be to implement the two given functions in the
 concrete implementation in `HotelSearchEngineImpl`:
@@ -41,3 +43,13 @@ We have provided a Gradle build file as well as Eclipse and Idea project files f
 * `gradle clean`: delete all of the build artifacts
 * `gradle classes`/`gradle testClasses`: compile source/test Java classes
 * `gradle test`: run unit tests
+
+## Evaluation criteria
+We are looking at the following points when you are completing the case study:
+
+* Pragmatic use of data structures/collections
+* Code legibility
+* Code reuse
+* Thoughtfull use of concurrency
+* If you believe that things are out of scope, that is totally fine. Please
+  add TODO comments on things that should be improved in the future.
