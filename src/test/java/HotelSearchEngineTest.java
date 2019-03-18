@@ -1,9 +1,4 @@
-import com.trivago.mp.casestudy.DateRange;
-import com.trivago.mp.casestudy.HotelSearchEngine;
-import com.trivago.mp.casestudy.HotelSearchEngineImpl;
-import com.trivago.mp.casestudy.HotelWithOffers;
-import com.trivago.mp.casestudy.Offer;
-import com.trivago.mp.casestudy.OfferProvider;
+import com.trivago.mp.casestudy.*;
 
 import org.junit.Test;
 
@@ -38,11 +33,39 @@ public class HotelSearchEngineTest {
 
         try {
             hotelSearchEngine.initialize();
-            hotelSearchEngine.performSearch("Berlin", new DateRange(20180214, 201802016), dummyOfferProvider);
+            hotelSearchEngine.performSearch("Berlin", new DateRange(20180214, 20180216), dummyOfferProvider);
         } catch (Exception e) {
             e.printStackTrace();
             fail();
         }
+    }
+
+    @Test
+    public void testEmptyResultsReturned() {
+        HotelSearchEngine hotelSearchEngine = new HotelSearchEngineImpl();
+
+        hotelSearchEngine.initialize();
+        List<HotelWithOffers> hotelsWithOffers = hotelSearchEngine.performSearch("Zurich",
+                                                                                 new DateRange(20180214, 20180216),
+                                                                                 dummyOfferProvider
+        );
+        assertTrue("Hotels result for Zurich is Empty", hotelsWithOffers.isEmpty());
+    }
+
+    @Test
+    public void testInvalidCity() {
+        assertTrue("No results for city Zurich", CSVDataLoader.getCities().entrySet().stream().noneMatch(entry -> "Zurich".equalsIgnoreCase(entry.getValue())));
+    }
+
+    @Test
+    public void testInvalidDateRange(){
+        HotelSearchEngine hotelSearchEngine = new HotelSearchEngineImpl();
+        hotelSearchEngine.initialize();
+        List<HotelWithOffers> hotelsWithOffers = hotelSearchEngine.performSearch("Lissabon",
+                new DateRange(20180216, 20180216),
+                dummyOfferProvider);
+
+        assertTrue("Invalid DateRange. Thus, the returned list is empty", hotelsWithOffers.isEmpty());
     }
 
     @Test
@@ -51,11 +74,12 @@ public class HotelSearchEngineTest {
 
         hotelSearchEngine.initialize();
         List<HotelWithOffers> hotelsWithOffers = hotelSearchEngine.performSearch("Berlin",
-                                                                                 new DateRange(20180214, 201802016),
-                                                                                 dummyOfferProvider
+                new DateRange(20180214, 20180216),
+                dummyOfferProvider
         );
         assertFalse("the result is not empty", hotelsWithOffers.isEmpty());
     }
+
 
     @Test
     public void testCorrectHotelsReturned() {
@@ -63,7 +87,7 @@ public class HotelSearchEngineTest {
 
         hotelSearchEngine.initialize();
         List<HotelWithOffers> hotelsWithOffers = hotelSearchEngine.performSearch("Munich",
-                                                                                 new DateRange(20180214, 201802016),
+                                                                                 new DateRange(20180214, 20180216),
                                                                                  dummyOfferProvider
         );
 
@@ -157,6 +181,7 @@ public class HotelSearchEngineTest {
                                  175
             ));
         }};
+
 
         for (HotelWithOffers hotelWithOffers : hotelsWithOffers) {
             assertTrue(String.format(
